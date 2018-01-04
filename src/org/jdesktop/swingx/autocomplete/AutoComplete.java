@@ -70,8 +70,8 @@ final class AutoComplete {
                 return;
             }
             
-            // don't popup if the combobox isn't visible anyway
-            if (comboBox.isDisplayable() && !comboBox.isPopupVisible()) {
+            // don't popup if the combobox isn't visible or empty anyway
+            if (comboBox.isDisplayable() && !comboBox.isPopupVisible() && comboBox.getModel().getSize() != 0) {
                 int keyCode = keyEvent.getKeyCode();
                 // don't popup when the user hits shift,ctrl or alt
                 if (keyCode==KeyEvent.VK_SHIFT || keyCode==KeyEvent.VK_CONTROL || keyCode==KeyEvent.VK_ALT) return;
