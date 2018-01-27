@@ -22,6 +22,10 @@ dependencies {
     compile 'org.swinglabs.swingx:swingx-mavensupport:1.6.5-1'
 }
 
+javadoc {
+    failOnError = false
+}
+
 jar {
     manifest {
         attributes('Implementation-Title': project.name,
