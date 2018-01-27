@@ -8,6 +8,7 @@ apply plugin: 'maven-publish'
 
 group 'org.citydb'
 version '1.6.5-2'
+description 'Fork of the inactive swingx-all library'
 
 sourceCompatibility = 1.8
 
@@ -27,6 +28,9 @@ javadoc {
 }
 
 jar {
+    from(sourceSets.main.allSource) {
+        include '**/*'
+    }
     manifest {
         attributes('Implementation-Title': project.name,
                 'Implementation-Version': project.version
