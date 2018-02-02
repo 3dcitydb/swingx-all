@@ -105,7 +105,6 @@ bintray {
         websiteUrl = 'https://github.com/3dcitydb'
         vcsUrl = 'https://github.com/3dcitydb/swingx-all.git'
         issueTrackerUrl = 'https://github.com/3dcitydb/swingx-all/issues'
-        labels = ['swingx-all', '3dcitydb']
         licenses = ['LGPL-2.1']
         version {
             name = project.version
