@@ -25,6 +25,7 @@ dependencies {
 
 javadoc {
     failOnError = false
+    options.addStringOption('Xdoclint:none', '-quiet')
 }
 
 jar {
