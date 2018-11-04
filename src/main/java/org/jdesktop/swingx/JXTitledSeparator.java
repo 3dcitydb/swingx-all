@@ -21,12 +21,7 @@
 
 package org.jdesktop.swingx;
 
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import org.jdesktop.beans.JavaBean;
 
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -36,8 +31,12 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
-
-import org.jdesktop.beans.JavaBean;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 /**
  * <p>A simple horizontal separator that contains a title.<br/>
@@ -94,6 +93,8 @@ public class JXTitledSeparator extends JXPanel {
      * title if alignment is centered or left justified
      */
     private JSeparator rightSeparator;
+
+    private int iconTextGap = 5;
     
     /** 
      * Creates a new instance of <code>JXTitledSeparator</code>. The default title is simply
@@ -204,22 +205,22 @@ public class JXTitledSeparator extends JXPanel {
             case SwingConstants.LEADING:
             case SwingConstants.WEST:
                 add(label, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
-                add(Box.createHorizontalStrut(3), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
+                add(Box.createHorizontalStrut(iconTextGap), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
                 add(rightSeparator, new GridBagConstraints(2, 0, 1, 1, 1.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
                 break;
             case SwingConstants.RIGHT:
             case SwingConstants.TRAILING:
             case SwingConstants.EAST:
                 add(rightSeparator, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
-                add(Box.createHorizontalStrut(3), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
+                add(Box.createHorizontalStrut(iconTextGap), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
                 add(label, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
                 break;
             case SwingConstants.CENTER:
             default:
                 add(leftSeparator, new GridBagConstraints(0, 0, 1, 1, 0.5, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
-                add(Box.createHorizontalStrut(3), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
+                add(Box.createHorizontalStrut(iconTextGap), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
                 add(label, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
-                add(Box.createHorizontalStrut(3), new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
+                add(Box.createHorizontalStrut(iconTextGap), new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
                 add(rightSeparator, new GridBagConstraints(4, 0, 1, 1, 0.5, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
         }
     }
@@ -400,5 +401,16 @@ public class JXTitledSeparator extends JXPanel {
             label.setFont(font);
         }
         super.setFont(font);
+    }
+
+    public void setIconTextGap(int iconTextGap) {
+        int oldValue = this.iconTextGap;
+        this.iconTextGap = iconTextGap;
+
+        if (iconTextGap != oldValue) {
+            layoutSeparator();
+            revalidate();
+            repaint();
+        }
     }
 }
