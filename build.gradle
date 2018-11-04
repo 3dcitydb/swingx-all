@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.citydb'
-version '1.6.5-2'
+version '1.6.6'
 description 'Fork of the inactive swingx-all library'
 
 sourceCompatibility = 1.8
