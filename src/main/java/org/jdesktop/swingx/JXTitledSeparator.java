@@ -94,7 +94,7 @@ public class JXTitledSeparator extends JXPanel {
      */
     private JSeparator rightSeparator;
 
-    private int iconTextGap = 5;
+    private int iconTextGap = 3;
     
     /** 
      * Creates a new instance of <code>JXTitledSeparator</code>. The default title is simply
