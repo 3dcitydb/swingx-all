@@ -570,7 +570,7 @@ public class JXTable extends JTable implements TableColumnModelExtListener {
      * @param rowData Row data, as a Vector of Objects.
      * @param columnNames Column names, as a Vector of Strings.
      */
-    public JXTable(Vector<?> rowData, Vector<?> columnNames) {
+    public JXTable(Vector<? extends Vector> rowData, Vector<?> columnNames) {
         super(rowData, columnNames);
         init();
     }
@@ -2517,7 +2517,7 @@ public class JXTable extends JTable implements TableColumnModelExtListener {
      * 
      * @param column the <code>TableColumn</code> which sent the change
      *        notifcation
-     * @param sortable the new value of the column's sortable property
+     * @param comparator the new value of the column's sortable property
      */
     private void updateComparatorAfterColumnChanged(TableColumn column,
             Comparator<?> comparator) {
@@ -3075,7 +3075,7 @@ public class JXTable extends JTable implements TableColumnModelExtListener {
          * @param modelColumn the column index in model coordinates, must be valid
          * @return the first contained TableColumn with the given model index, or
          *   null if none is found
-         * @throws IllegalArgumentExcetpion if model index invalid  
+         * @throws IllegalArgumentException if model index invalid
          */
         protected TableColumn getColumnByModelIndex(int modelColumn) {
             if ((modelColumn < 0) || (modelColumn >= getColumnCount())) {
@@ -3569,7 +3569,7 @@ public class JXTable extends JTable implements TableColumnModelExtListener {
      * Convenience method to get the rendering component for the given cell.
      * 
      * @param row the row of the cell to render, where 0 is the first row
-     * @param column the column of the cell to render, where 0 is the first
+     * @param col the column of the cell to render, where 0 is the first
      *        column
      * @return the decorated <code>Component</code> used as a stamp to render
      *         the specified cell
