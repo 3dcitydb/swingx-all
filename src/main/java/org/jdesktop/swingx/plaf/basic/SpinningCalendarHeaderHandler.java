@@ -425,6 +425,7 @@ public class SpinningCalendarHeaderHandler extends CalendarHeaderHandler {
             }
             if (yearSpinner != null) {
                 yearSpinner.setBackground(bg);
+                yearSpinner.setBorder(BorderFactory.createLineBorder(bg, 2));
                 yearSpinner.getEditor().setBackground(bg);
                 ((DefaultEditor) yearSpinner.getEditor()).getTextField()
                         .setBackground(bg);
@@ -502,7 +503,6 @@ public class SpinningCalendarHeaderHandler extends CalendarHeaderHandler {
         private JSpinner createSpinner() {
             JSpinner spinner = new JSpinner();
             spinner.setFocusable(false);
-            spinner.setBorder(BorderFactory.createEmptyBorder());
             NumberEditor editor = new NumberEditor(spinner);
             editor.getFormat().setGroupingUsed(false);
             editor.getTextField().setFocusable(false);
