@@ -20,6 +20,27 @@
  */
 package org.jdesktop.swingx;
 
+import org.jdesktop.beans.JavaBean;
+import org.jdesktop.swingx.calendar.DatePickerFormatter;
+import org.jdesktop.swingx.event.EventListenerMap;
+import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.plaf.DatePickerAddon;
+import org.jdesktop.swingx.plaf.DatePickerUI;
+import org.jdesktop.swingx.plaf.LookAndFeelAddons;
+import org.jdesktop.swingx.plaf.UIManagerExt;
+import org.jdesktop.swingx.util.Contract;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JFormattedTextField.AbstractFormatterFactory;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.text.DefaultFormatterFactory;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
@@ -45,29 +66,6 @@ import java.util.EventListener;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.JFormattedTextField.AbstractFormatter;
-import javax.swing.JFormattedTextField.AbstractFormatterFactory;
-import javax.swing.event.PopupMenuListener;
-import javax.swing.text.DefaultFormatterFactory;
-
-import org.jdesktop.beans.JavaBean;
-import org.jdesktop.swingx.calendar.DatePickerFormatter;
-import org.jdesktop.swingx.event.EventListenerMap;
-import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.plaf.DatePickerAddon;
-import org.jdesktop.swingx.plaf.DatePickerUI;
-import org.jdesktop.swingx.plaf.LookAndFeelAddons;
-import org.jdesktop.swingx.plaf.UIManagerExt;
-import org.jdesktop.swingx.util.Contract;
 
 /**
  * A component for entering dates with a user interaction similar to a
@@ -198,7 +196,7 @@ public class JXDatePicker extends JComponent {
     /**
      * The editable date field that displays the date
      */
-    private JFormattedTextField _dateField;
+    private JXFormattedTextField _dateField;
 
     /**
      * Popup that displays the month view with controls for
@@ -683,7 +681,7 @@ public class JXDatePicker extends JComponent {
      * @return the formatted text field
      */
 //    @Deprecated
-    public JFormattedTextField getEditor() {
+    public JXFormattedTextField getEditor() {
         return _dateField;
     }
 
@@ -702,9 +700,9 @@ public class JXDatePicker extends JComponent {
      * @see #getEditor()
      */
 //    @Deprecated
-    public void setEditor(JFormattedTextField editor) {
+    public void setEditor(JXFormattedTextField editor) {
         Contract.asNotNull(editor, "editor must not be null");
-        JFormattedTextField oldEditor = _dateField;
+        JXFormattedTextField oldEditor = _dateField;
         _dateField = editor;
         firePropertyChange(EDITOR, oldEditor, _dateField);
     }
