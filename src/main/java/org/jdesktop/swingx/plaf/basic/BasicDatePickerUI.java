@@ -21,7 +21,6 @@
 package org.jdesktop.swingx.plaf.basic;
 
 import org.jdesktop.swingx.JXDatePicker;
-import org.jdesktop.swingx.JXFormattedTextField;
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.SwingXUtilities;
 import org.jdesktop.swingx.calendar.CalendarUtils;
@@ -33,20 +32,9 @@ import org.jdesktop.swingx.event.DateSelectionEvent.EventType;
 import org.jdesktop.swingx.event.DateSelectionListener;
 import org.jdesktop.swingx.plaf.DatePickerUI;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.Icon;
-import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
-import javax.swing.JPopupMenu;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -54,14 +42,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.View;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Insets;
-import java.awt.KeyboardFocusManager;
-import java.awt.LayoutManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -155,8 +136,8 @@ public class BasicDatePickerUI extends DatePickerUI {
     }
 
     protected void installComponents() {
-
-        JXFormattedTextField editor = datePicker.getEditor();
+        
+        JFormattedTextField editor = datePicker.getEditor();
         if (SwingXUtilities.isUIInstallable(editor)) {
             DateFormat[] formats = getCustomFormats(editor);
             // we are not yet listening ...
@@ -189,7 +170,7 @@ public class BasicDatePickerUI extends DatePickerUI {
      * @return the custom formats uses in the editor or null if it had
      *   used defaults as defined in the datepicker properties
      */
-    private DateFormat[] getCustomFormats(JXFormattedTextField editor) {
+    private DateFormat[] getCustomFormats(JFormattedTextField editor) {
         DateFormat[] formats = null;
         if (editor != null) {
             AbstractFormatterFactory factory = editor.getFormatterFactory();
@@ -208,7 +189,7 @@ public class BasicDatePickerUI extends DatePickerUI {
     }
 
     protected void uninstallComponents() {
-        JXFormattedTextField editor = datePicker.getEditor();
+        JFormattedTextField editor = datePicker.getEditor();
         if (editor != null) {
             datePicker.remove(editor);
         }
@@ -426,7 +407,7 @@ public class BasicDatePickerUI extends DatePickerUI {
      * 
      * @param oldEditor the pickers editor before the change
      */
-    protected void updateEditorListeners(JXFormattedTextField oldEditor) {
+    protected void updateEditorListeners(JFormattedTextField oldEditor) {
         if (oldEditor != null) {
             uninstallEditorListeners(oldEditor);
         }
@@ -442,7 +423,7 @@ public class BasicDatePickerUI extends DatePickerUI {
      * 
      * @param oldEditor the editor to uninstall.
      */
-    private void uninstallEditorListeners(JXFormattedTextField oldEditor) {
+    private void uninstallEditorListeners(JFormattedTextField oldEditor) {
         oldEditor.removePropertyChangeListener(editorPropertyListener);
         oldEditor.removeActionListener(editorActionListener);
         oldEditor.removeFocusListener(focusListener);
@@ -475,8 +456,8 @@ public class BasicDatePickerUI extends DatePickerUI {
      * 
      * @return an instance of a JFormattedTextField
      */
-    protected JXFormattedTextField createEditor() {
-        JXFormattedTextField f = new DefaultEditor(
+    protected JFormattedTextField createEditor() {
+        JFormattedTextField f = new DefaultEditor(
                 new DatePickerFormatterUIResource(datePicker.getLocale()));
         f.setName("dateField");
         // this produces a fixed pref widths, looking a bit funny
@@ -520,12 +501,11 @@ public class BasicDatePickerUI extends DatePickerUI {
      * PENDING: there's a resource property JXDatePicker.numColumns - why 
      *   don't we use it?
      */
-    private class DefaultEditor extends JXFormattedTextField implements UIResource {
+    private class DefaultEditor extends JFormattedTextField implements UIResource {
 
 
         public DefaultEditor(AbstractFormatter formatter) {
-            super();
-            setFormatterFactory(new DefaultFormatterFactory(formatter));
+            super(formatter);
         }
 
         /**
@@ -556,17 +536,13 @@ public class BasicDatePickerUI extends DatePickerUI {
         }
 
         private Dimension getCompareMinimumSize() {
-            JXFormattedTextField field = new JXFormattedTextField();
-            field.setFormatterFactory(new DefaultFormatterFactory(getFormatter()));
+            JFormattedTextField field = new JFormattedTextField(getFormatter());
             field.setMargin(getMargin());
             field.setBorder(getBorder());
             field.setFont(getFont());
             field.setValue(new Date());
             Dimension min = field.getPreferredSize();
             field.setValue(null);
-            field.setPrompt(getPrompt());
-            min.width = Math.max(min.width, field.getPreferredSize().width);
-            field.setPrompt(null);
             min.width += Math.max(field.getPreferredSize().width, 4);
             return min;
         }
@@ -601,7 +577,7 @@ public class BasicDatePickerUI extends DatePickerUI {
 
     @Override
     public int getBaseline(int width, int height) {
-        JXFormattedTextField editor = datePicker.getEditor();
+        JFormattedTextField editor = datePicker.getEditor();
         View rootView = editor.getUI().getRootView(editor);
         if (rootView.getViewCount() > 0) {
             Insets insets = editor.getInsets();
@@ -740,7 +716,7 @@ public class BasicDatePickerUI extends DatePickerUI {
      * @param updateListeners a flag to indicate whether the listeners
      *   are ready for usage.   
      */
-    protected void updateFromEditorChanged(JXFormattedTextField oldEditor,
+    protected void updateFromEditorChanged(JFormattedTextField oldEditor, 
             boolean updateListeners) { 
         if (oldEditor != null) {
             datePicker.remove(oldEditor);
@@ -1022,11 +998,11 @@ public class BasicDatePickerUI extends DatePickerUI {
      * 
      */
     public class EditorCancelAction extends AbstractAction {
-        private JXFormattedTextField editor;
+        private JFormattedTextField editor;
         private Action cancelAction;
         public static final String TEXT_CANCEL_KEY = "reset-field-edit";
        
-        public EditorCancelAction(JXFormattedTextField field) {
+        public EditorCancelAction(JFormattedTextField field) {
             install(field);
         }
         
@@ -1046,7 +1022,7 @@ public class BasicDatePickerUI extends DatePickerUI {
         /**
          * @param editor
          */
-        private void install(JXFormattedTextField editor) {
+        private void install(JFormattedTextField editor) {
             this.editor = editor;
             cancelAction = editor.getActionMap().get(TEXT_CANCEL_KEY);
             editor.getActionMap().put(TEXT_CANCEL_KEY, this);
@@ -1200,7 +1176,7 @@ public class BasicDatePickerUI extends DatePickerUI {
         return popup;
     }
     /**
-     * Action used to commit the current value in the JXFormattedTextField.
+     * Action used to commit the current value in the JFormattedTextField.
      * This action is used by the keyboard bindings.
      */
     private class TogglePopupAction extends AbstractAction {
@@ -1388,7 +1364,7 @@ public class BasicDatePickerUI extends DatePickerUI {
             } else if (JXDatePicker.LINK_PANEL.equals(property)) {
                 updateLinkPanel((JComponent) e.getOldValue());
             } else if (JXDatePicker.EDITOR.equals(property)) {
-                updateFromEditorChanged((JXFormattedTextField) e.getOldValue(), true);
+                updateFromEditorChanged((JFormattedTextField) e.getOldValue(), true);
             } else if ("componentOrientation".equals(property)) {
                 datePicker.revalidate();
             } else if ("lightWeightPopupEnabled".equals(property)) {

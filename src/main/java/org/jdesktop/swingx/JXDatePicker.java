@@ -30,23 +30,12 @@ import org.jdesktop.swingx.plaf.LookAndFeelAddons;
 import org.jdesktop.swingx.plaf.UIManagerExt;
 import org.jdesktop.swingx.util.Contract;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.DefaultFormatterFactory;
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -196,7 +185,7 @@ public class JXDatePicker extends JComponent {
     /**
      * The editable date field that displays the date
      */
-    private JXFormattedTextField _dateField;
+    private JFormattedTextField _dateField;
 
     /**
      * Popup that displays the month view with controls for
@@ -681,7 +670,7 @@ public class JXDatePicker extends JComponent {
      * @return the formatted text field
      */
 //    @Deprecated
-    public JXFormattedTextField getEditor() {
+    public JFormattedTextField getEditor() {
         return _dateField;
     }
 
@@ -700,9 +689,9 @@ public class JXDatePicker extends JComponent {
      * @see #getEditor()
      */
 //    @Deprecated
-    public void setEditor(JXFormattedTextField editor) {
+    public void setEditor(JFormattedTextField editor) {
         Contract.asNotNull(editor, "editor must not be null");
-        JXFormattedTextField oldEditor = _dateField;
+        JFormattedTextField oldEditor = _dateField;
         _dateField = editor;
         firePropertyChange(EDITOR, oldEditor, _dateField);
     }
