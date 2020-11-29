@@ -1,23 +1,27 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.8.4'
+    id 'com.jfrog.bintray' version '1.8.5'
 }
 
 group 'org.citydb'
 version '1.6.7'
 description 'Fork of the inactive swingx-all library'
 
-sourceCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     jcenter()
 }
 
 dependencies {
-    compile 'org.swinglabs.swingx:swingx-graphics:1.6.5-1'
-    compile 'org.swinglabs.swingx:swingx-core:1.6.5-1'
-    compile 'org.swinglabs.swingx:swingx-mavensupport:1.6.5-1'
+    implementation 'org.swinglabs.swingx:swingx-graphics:1.6.5-1'
+    implementation 'org.swinglabs.swingx:swingx-core:1.6.5-1'
+    implementation 'org.swinglabs.swingx:swingx-mavensupport:1.6.5-1'
     compileOnly 'org.kohsuke.metainf-services:metainf-services:1.8'
     annotationProcessor 'org.kohsuke.metainf-services:metainf-services:1.8'
 }
@@ -41,22 +45,10 @@ jar {
     }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            artifact sourcesJar
-            artifact javadocJar
             pom {
                 name = project.name
                 description = project.description
