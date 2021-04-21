@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.8.5'
+    id 'com.jfrog.artifactory' version '4.16.1'
 }
 
 group 'org.citydb'
@@ -78,22 +78,17 @@ publishing {
     }
 }
 
-bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-
-    publications = ['mavenJava']
-    pkg {
-        repo = 'maven'
-        userOrg = '3dcitydb'
-        name = project.name
-        desc = project.description
-        websiteUrl = 'https://github.com/3dcitydb'
-        vcsUrl = 'https://github.com/3dcitydb/swingx-all.git'
-        issueTrackerUrl = 'https://github.com/3dcitydb/swingx-all/issues'
-        licenses = ['LGPL-2.1']
-        version {
-            name = project.version
+artifactory {
+    contextUrl = project.hasProperty('artifactory_contextUrl') ? project.property('artifactory_contextUrl') : System.getenv('artifactory_contextUrl')
+    publish {
+        repository {
+            repoKey = 'maven'
+            username = project.hasProperty('artifactory_user') ? project.property('artifactory_user') : System.getenv('artifactory_user')
+            password = project.hasProperty('artifactory_password') ? project.property('artifactory_password') : System.getenv('artifactory_password')
+            maven = true
+        }
+        defaults {
+            publications('mavenJava')
         }
     }
 }
