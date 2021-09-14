@@ -35,7 +35,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -81,12 +80,7 @@ public final class SwingXUtilities {
      * A helper for creating and updating key bindings for components with
      * mnemonics. The {@code pressed} action will be invoked when the mnemonic
      * is activated.
-     * <p>
-     * TODO establish an interface for the mnemonic properties, such as {@code
-     * MnemonicEnabled} and change signature to {@code public static <T extends
-     * JComponent & MnemonicEnabled> void updateMnemonicBinding(T c, String
-     * pressed)}
-     * 
+     *
      * @param c
      *            the component bindings to update
      * @param pressed
@@ -95,7 +89,7 @@ public final class SwingXUtilities {
      * @throws NullPointerException
      *             if the component is {@code null}
      */
-    public static void updateMnemonicBinding(JComponent c, String pressed) {
+    public static <T extends JComponent & Mnemonicable> void updateMnemonicBinding(T c, String pressed) {
         updateMnemonicBinding(c, pressed, null);
     }
     
@@ -104,12 +98,7 @@ public final class SwingXUtilities {
      * mnemonics. The {@code pressed} action will be invoked when the mnemonic
      * is activated and the {@code released} action will be invoked when the
      * mnemonic is deactivated.
-     * <p>
-     * TODO establish an interface for the mnemonic properties, such as {@code
-     * MnemonicEnabled} and change signature to {@code public static <T extends
-     * JComponent & MnemonicEnabled> void updateMnemonicBinding(T c, String
-     * pressed, String released)}
-     * 
+     *
      * @param c
      *            the component bindings to update
      * @param pressed
@@ -122,19 +111,9 @@ public final class SwingXUtilities {
      * @throws NullPointerException
      *             if the component is {@code null}
      */
-    public static void updateMnemonicBinding(JComponent c, String pressed, String released) {
-        Class<?> clazz = c.getClass();
-        int m = -1;
-        
-        try {
-            Method mtd = clazz.getMethod("getMnemonic");
-            m = (Integer) mtd.invoke(c);
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IllegalArgumentException("unable to access mnemonic", e);
-        }
-        
+    public static <T extends JComponent & Mnemonicable> void updateMnemonicBinding(T c, String pressed, String released) {
+        int m = c.getMnemonic();
+
         InputMap map = SwingUtilities.getUIInputMap(c,
                 JComponent.WHEN_IN_FOCUSED_WINDOW);
         
