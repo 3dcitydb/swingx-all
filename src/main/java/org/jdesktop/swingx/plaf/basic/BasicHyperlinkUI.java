@@ -33,7 +33,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Reader;
 import java.io.StringReader;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -540,39 +539,41 @@ public class BasicHyperlinkUI extends BasicButtonUI {
          * was created for.
          */
         static class BasicDocument extends HTMLDocument {
-        private static Class<?> clz;
-        private static Method displayPropertiesToCSS;
-
-        /** The host, that is where we are rendering. */
-        // private JComponent host;
-        // --------- 1.5 x 1.6 incompatibility handling ....
-        static {
-            String j5 = "com.sun.java.swing.SwingUtilities2";
-            String j6 = "sun.swing.SwingUtilities2";
-            try {
-                // assume 1.6
-                clz = Class.forName(j6);
-            } catch (ClassNotFoundException e) {
-                // or maybe not ..
-                try {
-                    clz = Class.forName(j5);
-                } catch (ClassNotFoundException e1) {
-                    throw new RuntimeException("Failed to find SwingUtilities2. Check the classpath.");
-                }
-            }
-            try {
-                displayPropertiesToCSS = clz.getMethod("displayPropertiesToCSS", new Class[] { Font.class, Color.class});
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to use SwingUtilities2. Check the permissions and class version.");
-            }
-        }
 
         private static String displayPropertiesToCSS(Font f, Color c) {
-            try {
-                return (String) displayPropertiesToCSS.invoke(null, new Object[] { f, c });
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            StringBuilder rule = new StringBuilder("body {");
+            if (f != null) {
+                rule.append(" font-family: ");
+                rule.append(f.getFamily());
+                rule.append(" ; ");
+                rule.append(" font-size: ");
+                rule.append(f.getSize());
+                rule.append("pt ;");
+                if (f.isBold()) {
+                    rule.append(" font-weight: 700 ; ");
+                }
+                if (f.isItalic()) {
+                    rule.append(" font-style: italic ; ");
+                }
             }
+            if (c != null) {
+                rule.append(" color: #");
+                if (c.getRed() < 16) {
+                    rule.append('0');
+                }
+                rule.append(Integer.toHexString(c.getRed()));
+                if (c.getGreen() < 16) {
+                    rule.append('0');
+                }
+                rule.append(Integer.toHexString(c.getGreen()));
+                if (c.getBlue() < 16) {
+                    rule.append('0');
+                }
+                rule.append(Integer.toHexString(c.getBlue()));
+                rule.append(" ; ");
+            }
+            rule.append(" }");
+            return rule.toString();
         }
 
         // --------- EO 1.5 x 1.6 incompatibility handling ....
