@@ -39,6 +39,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 
+import org.jdesktop.swingx.BackgroundPaintable;
 import org.jdesktop.swingx.painter.Painter;
 
 /**
@@ -506,22 +507,11 @@ public abstract class LookAndFeelAddons {
      *             if the component does not contain the "backgroundPainter" property or the
      *             property cannot be set
      */
-    public static void installBackgroundPainter(JComponent c, String painter) {
-        Class<?> clazz = c.getClass();
+    public static <T extends JComponent & BackgroundPaintable> void installBackgroundPainter(T c, String painter) {
+        Painter<?> p = c.getBackgroundPainter();
 
-        try {
-            Method getter = clazz.getMethod("getBackgroundPainter");
-            Method setter = clazz.getMethod("setBackgroundPainter", Painter.class);
-
-            Painter<?> p = (Painter<?>) getter.invoke(c);
-
-            if (p == null || p instanceof UIResource) {
-                setter.invoke(c, UIManagerExt.getPainter(painter));
-            }
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IllegalArgumentException("cannot set painter on " + c.getClass());
+        if (p == null || p instanceof UIResource) {
+            c.setBackgroundPainter(UIManagerExt.getPainter(painter));
         }
     }
 
@@ -537,22 +527,11 @@ public abstract class LookAndFeelAddons {
      *             if the component does not contain the "backgroundPainter" property or the
      *             property cannot be set
      */
-    public static void uninstallBackgroundPainter(JComponent c) {
-        Class<?> clazz = c.getClass();
+    public static <T extends JComponent & BackgroundPaintable> void uninstallBackgroundPainter(T c) {
+        Painter<?> p = c.getBackgroundPainter();
 
-        try {
-            Method getter = clazz.getMethod("getBackgroundPainter");
-            Method setter = clazz.getMethod("setBackgroundPainter", Painter.class);
-
-            Painter<?> p = (Painter<?>) getter.invoke(c);
-
-            if (p == null || p instanceof UIResource) {
-                setter.invoke(c, (Painter<?>) null);
-            }
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IllegalArgumentException("cannot set painter on " + c.getClass());
+        if (p == null || p instanceof UIResource) {
+            c.setBackgroundPainter(null);
         }
     }
 }
