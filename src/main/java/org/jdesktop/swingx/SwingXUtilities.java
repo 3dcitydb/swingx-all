@@ -606,4 +606,19 @@ public final class SwingXUtilities {
         return (i & sourcActions);
     }
 
+    private static final Class<?> appletClass;
+
+    static {
+        Class<?> cls;
+        try {
+            cls = Class.forName("java.applet.Applet");
+        } catch (ClassNotFoundException ex) {
+            cls = null;
+        }
+        appletClass = cls;
+    }
+
+    static boolean isApplet(Component c) {
+        return appletClass != null && appletClass.isInstance(c);
+    }
 }
