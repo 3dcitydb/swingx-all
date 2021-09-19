@@ -5,11 +5,16 @@ plugins {
 }
 
 group 'org.citydb'
-version '1.6.8'
+version '1.6.9'
 description 'Fork of the inactive swingx-all library'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+    compileJava {
+        options.release = 8
+    }
     withJavadocJar()
     withSourcesJar()
 }
@@ -19,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.swinglabs.swingx:swingx-mavensupport:1.6.5-1'
+    api 'org.swinglabs.swingx:swingx-mavensupport:1.6.5-1'
     compileOnly 'org.kohsuke.metainf-services:metainf-services:1.8'
     annotationProcessor 'org.kohsuke.metainf-services:metainf-services:1.8'
 }
