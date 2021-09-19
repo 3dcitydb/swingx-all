@@ -28,7 +28,7 @@ import org.jdesktop.swingx.painter.Painter;
  * @author kschaefer
  */
 @SuppressWarnings("rawtypes")
-interface BackgroundPaintable {
+public interface BackgroundPaintable {
     /**
      * Returns the current background painter.
      * 
