@@ -266,8 +266,8 @@ public class ShadowRenderer {
         }
         
         changeSupport.firePropertyChange(SIZE_CHANGED_PROPERTY,
-                                         new Integer(oldSize),
-                                         new Integer(this.size));
+                                         oldSize,
+                                         this.size);
     }
 
     /**

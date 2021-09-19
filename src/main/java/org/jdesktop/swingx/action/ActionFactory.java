@@ -82,7 +82,7 @@ public class ActionFactory {
                                                   String mnemonic) {
         ServerAction action = new ServerAction(name, id);
         if (mnemonic != null && !mnemonic.equals("")) {
-            action.putValue(Action.MNEMONIC_KEY, new Integer(mnemonic.charAt(0)));
+            action.putValue(Action.MNEMONIC_KEY, (int) mnemonic.charAt(0));
         }
         return action;
     }
