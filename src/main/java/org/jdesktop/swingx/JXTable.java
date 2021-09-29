@@ -21,7 +21,6 @@
 
 package org.jdesktop.swingx;
 
-import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -4142,7 +4141,7 @@ public class JXTable extends JTable implements TableColumnModelExtListener {
                         // PENDING JW: left-over? we should never reach this ...
                         // need to switch the hierarchy to a popups invoker
                     } else if ((c instanceof Window)
-                            || (c instanceof Applet && c.getParent() == null)) {
+                            || (SwingXUtilities.isApplet(c) && c.getParent() == null)) {
                         if (c == SwingUtilities.getRoot(JXTable.this)) {
                             if (!getCellEditor().stopCellEditing()) {
                                 getCellEditor().cancelCellEditing();
