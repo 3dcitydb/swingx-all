@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'com.jfrog.artifactory' version '4.16.1'
 }
 
 group 'org.citydb'
@@ -11,9 +10,6 @@ description 'Fork of the inactive swingx-all library'
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
-    }
-    compileJava {
-        options.release = 8
     }
     withJavadocJar()
     withSourcesJar()
@@ -79,19 +75,17 @@ publishing {
             }
         }
     }
-}
-
-artifactory {
-    contextUrl = project.hasProperty('artifactory_contextUrl') ? project.property('artifactory_contextUrl') : System.getenv('artifactory_contextUrl')
-    publish {
-        repository {
-            repoKey = 'maven'
-            username = project.hasProperty('artifactory_user') ? project.property('artifactory_user') : System.getenv('artifactory_user')
-            password = project.hasProperty('artifactory_password') ? project.property('artifactory_password') : System.getenv('artifactory_password')
-            maven = true
-        }
-        defaults {
-            publications('mavenJava')
+    repositories {
+        maven {
+            url project.hasProperty('gitLab_maven_url') ? project.property('gitLab_maven_url') : System.getenv('GITLAB_MAVEN_URL')
+            name 'gitlab-maven'
+            credentials(HttpHeaderCredentials) {
+                name = 'Private-Token'
+                value = project.hasProperty('gitLab_private_token') ? project.property('gitLab_private_token') : System.getenv('GITLAB_PRIVATE_TOKEN')
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
         }
     }
 }
